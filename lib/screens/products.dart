@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../widgets/category_tab.dart';
 
 class Products extends StatefulWidget {
   const Products({super.key});
@@ -14,7 +14,9 @@ class _ProductsState extends State<Products> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: Row(
-
+        children: [
+          CategoryTab()
+        ],
       ),
     );
   }
