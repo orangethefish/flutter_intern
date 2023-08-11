@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'widgets/cart.dart';
-import 'widgets/products.dart';
+import 'screens/cart.dart';
+import 'screens/products.dart';
 void main() {
   runApp(MyApp());
 }
