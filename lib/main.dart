@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/cart.dart';
-
+import 'widgets/products.dart';
 void main() {
   runApp(MyApp());
 }
@@ -15,22 +15,22 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.lightBlueAccent,
         ),
         body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: const Text(
-                'Items',
-                style: TextStyle(
-                  color: Colors.lightGreenAccent,
-                ),
-              )
-            ),
-            Container(
+            Expanded(
+              flex: 1,
               child: Column(
                 children: [
-                  Text('Cart'),
-                  MyCart()
+                  Expanded(child: Products())
+                ],
+              )
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  Expanded(child: MyCart())
                 ],
               )
 
