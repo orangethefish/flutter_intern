@@ -60,3 +60,10 @@ Future<Map<String, List<Item>>> getItems() async{
   // });
   return itemsMap;
 }
+Future <void> addItemToCart(Item item) async{
+  try{
+    var url=Uri.http(apiHost, 'cart/add-to-cart');
+  }catch(e){
+
+  }
+}

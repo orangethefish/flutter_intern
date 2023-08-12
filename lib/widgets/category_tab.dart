@@ -1,8 +1,8 @@
 //import packages
 import 'package:flutter/material.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
+//
+import './products_list.dart';
 
 //import constants
 import '../services/api_service.dart';
@@ -69,27 +69,7 @@ class _CategoryTabState extends State<CategoryTab> {
                           itemCount: itemsToDisplay.length,
                           itemBuilder: (context, index) {
                             Item item = itemsToDisplay[index];
-                            return GestureDetector(
-                              onDoubleTap:(){
-
-                              },
-                              child: Card(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Image.network(item.image),
-                                      SizedBox(height: 8),
-                                      Text('${item.prodName} - ${item.prodPrice}£',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                            );
-
+                            return ProductsList(item: item);
                           },
                         );
                       }).toList(),
