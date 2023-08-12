@@ -15,7 +15,7 @@ class _ProductsState extends State<Products> {
       backgroundColor: Colors.grey[200],
       body: Row(
         children: [
-          CategoryTab()
+          Expanded(child: CategoryTab())
         ],
       ),
     );
