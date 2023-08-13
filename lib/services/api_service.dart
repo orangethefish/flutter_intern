@@ -10,14 +10,36 @@ class Item{
   final String prodName;
   final double prodPrice;
   final String image;
+  final String prodCategory;
 
   Item({
     required this.id,
     required this.prodName,
     required this.prodPrice,
-    required this.image
+    required this.image,
+    required this.prodCategory,
   });
 }
+class CartItem extends Item {
+  final int quantity;
+  final double subtotal;
+
+  CartItem({
+    required int id,
+    required String prodName,
+    required double prodPrice,
+    required String image,
+    required this.quantity,
+    required this.subtotal,
+  }) : super(
+    id: id,
+    prodName: prodName,
+    prodPrice: prodPrice,
+    image: image,
+    prodCategory: '',
+  );
+}
+
 
 Future <List> getCategory() async{
   try {
@@ -42,10 +64,11 @@ Future<Map<String, List<Item>>> getItems() async{
       List<dynamic> itemList = jsonDecode(response.body); // List of dynamic objects
       List<Item> itemsForCategory = itemList.map((itemJson) {
         return Item(
-          id: itemJson['id'], // Assuming your JSON structure has 'id', 'prodName', 'prodPrice', etc.
-          prodName: itemJson['prodName'],
-          prodPrice: itemJson['prodPrice'],
-          image: itemJson['image']
+            id: itemJson['id'], // Assuming your JSON structure has 'id', 'prodName', 'prodPrice', etc.
+            prodName: itemJson['prodName'],
+            prodPrice: itemJson['prodPrice'],
+            prodCategory: itemJson['prodCategory'],
+            image: itemJson['image']
         );
       }).toList();
       itemsMap[category] = itemsForCategory;
@@ -60,10 +83,46 @@ Future<Map<String, List<Item>>> getItems() async{
   // });
   return itemsMap;
 }
-Future <void> addItemToCart(Item item) async{
+Future<List<CartItem>> getCart()async{
+  try{
+    var url=Uri.http(apiHost,'cart/all');
+    final response= await http.get(url);
+    List<dynamic> cartList = jsonDecode(response.body);
+    List<CartItem> cartItems = cartList.map((item) {
+      return CartItem(
+        id: item['id'],
+        prodName: item['prodName'],
+        prodPrice: item['prodPrice'],
+        image: item['image'],
+        quantity: item['quantity'],
+        subtotal: item['subtotal'].toDouble(),
+      );
+    }).toList();
+
+    return cartItems;
+  }catch(e){
+    print(e);
+    return [];
+  }
+}
+Future <void> addItemToCart(Item item, int quantity) async{
   try{
     var url=Uri.http(apiHost, 'cart/add-to-cart');
+    var subtotal = item.prodPrice*quantity;
+    await http.post(url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': item.id,
+        'prodName': item.prodName,
+        'prodPrice': item.prodPrice,
+        'quantity': quantity,
+        'subtotal': subtotal,
+        'image': item.image
+      }),
+    );
   }catch(e){
-
+    print(e);
   }
 }

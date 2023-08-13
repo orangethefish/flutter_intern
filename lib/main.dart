@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'screens/cart.dart';
 import 'screens/products.dart';
+
+import 'services/cart_notifier.dart';
+
+
+
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartNotifier(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +24,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('CakeStory'),
-          backgroundColor: Colors.lightBlueAccent,
+          backgroundColor: Colors.teal,
         ),
         body: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -30,22 +42,16 @@ class MyApp extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  Expanded(child: MyCart())
+                  Expanded(child: Consumer<CartNotifier>(
+                    builder: (context, cartNotifier, child) {
+                      return MyCart();
+                    },
+                  ),)
                 ],
               )
 
             )
           ],
-        ),
-
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-
-            // Add your action here
-          },
-          backgroundColor: Colors.amber[200],
-          child: Icon(Icons.shopping_cart),
-
         ),
       ),
     );
