@@ -106,7 +106,7 @@ Future<List<CartItem>> getCart()async{//fetch items in cart
     return [];
   }
 }
-Future <void> addItemToCart(Item item, int quantity) async{ //add or remove item from cart 
+Future <void> addItemToCart(Item item, int quantity) async{ //add or remove item from cart
   try{
     var url=Uri.http(apiHost, 'cart/add-to-cart');
     var subtotal = item.prodPrice*quantity;
