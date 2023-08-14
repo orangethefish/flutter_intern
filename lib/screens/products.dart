@@ -1,9 +1,10 @@
+//import packages
 import 'package:flutter/material.dart';
+
+//import widgets
 import '../widgets/category_tab.dart';
 
 class Products extends StatefulWidget {
-  const Products({super.key});
-
   @override
   State<Products> createState() => _ProductsState();
 }
@@ -15,7 +16,7 @@ class _ProductsState extends State<Products> {
       backgroundColor: Colors.grey[200],
       body: Row(
         children: [
-          Expanded(child: CategoryTab())
+          Expanded(child: CategoryTab()) //contains category tab
         ],
       ),
     );

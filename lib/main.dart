@@ -1,28 +1,23 @@
+//import packages
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+//import widgets
 import 'screens/cart.dart';
 import 'screens/products.dart';
 
-import 'services/cart_notifier.dart';
-
-
-
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CartNotifier(),
-      child: MyApp(),
-    ),
+     MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
+  // splits MyApp in two halves (Products and MyCart)
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar( //title
           title: const Text('CakeStory'),
           backgroundColor: Colors.teal,
         ),
@@ -31,7 +26,7 @@ class MyApp extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 1,
+              flex: 1, //two equal halves
               child: Column(
                 children: [
                   Expanded(child: Products())
@@ -42,11 +37,7 @@ class MyApp extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  Expanded(child: Consumer<CartNotifier>(
-                    builder: (context, cartNotifier, child) {
-                      return MyCart();
-                    },
-                  ),)
+                  Expanded(child:MyCart())
                 ],
               )
 

@@ -1,12 +1,18 @@
+//import packages
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
 import 'dart:async';
+
+//import apis
+import '../services/api_service.dart';
+
+
+
 
 
 class DelayedIncrementDecrementButtons extends StatefulWidget {
   final CartItem cartItem;
-  final ValueChanged<int> onQuantityChanged;
-  const DelayedIncrementDecrementButtons({super.key,required this.cartItem, required this.onQuantityChanged});
+  final ValueChanged<int> onQuantityChanged; // function handles quantity changes
+  const DelayedIncrementDecrementButtons({super.key,required this.cartItem, required this.onQuantityChanged});  //the cart doesn't call api instant but 1 second after user's series of clicks
 
   @override
   _DelayedIncrementDecrementButtonsState createState() =>
@@ -15,31 +21,31 @@ class DelayedIncrementDecrementButtons extends StatefulWidget {
 
 class _DelayedIncrementDecrementButtonsState
     extends State<DelayedIncrementDecrementButtons> {
-  late Timer _timer;
-  int _incrementDecrementValue = 0;
+  late Timer _timer; //time to wait after last input
+  int _incrementDecrementValue = 0; //difference between before and after inputs
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer(Duration(seconds: 1), _handleIncrementDecrement);
+    _timer = Timer(Duration(seconds: 1), _handleIncrementDecrement); //1 second
   }
 
   void _handleIncrementDecrement() {
     // Implement your increment and decrement logic here
     widget.onQuantityChanged(
-      _incrementDecrementValue,
+      _incrementDecrementValue, //pass the difference
     );
   }
 
   void _handleIncrement() {
-    setState(() {
+    setState(() { //handle + inputs
       _incrementDecrementValue++;
     });
     _timer.cancel();
     _timer = Timer(Duration(seconds: 1), _handleIncrementDecrement);
   }
 
-  void _handleDecrement() {
+  void _handleDecrement() { //handle - inputs
     if (_incrementDecrementValue >= 0) {
       setState(() {
         _incrementDecrementValue--;
@@ -53,12 +59,12 @@ class _DelayedIncrementDecrementButtonsState
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(
+        IconButton( // - button
           onPressed: _handleDecrement,
           icon: Icon(Icons.remove),
         ),
         Text('${widget.cartItem.quantity + _incrementDecrementValue}'),
-        IconButton(
+        IconButton( // + button
           onPressed: _handleIncrement,
           icon: Icon(Icons.add),
         ),

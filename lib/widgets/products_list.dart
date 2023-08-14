@@ -1,12 +1,14 @@
+//import packages
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:async';
+
+//import apis
 import '../services/api_service.dart';
-import '../services/cart_notifier.dart';
+
 
 class ProductsList extends StatefulWidget {
   final Item item;
-  const ProductsList({super.key,required this.item});
+  const ProductsList({super.key,required this.item});//CategoryTab pass an item to ProductsList to render
   @override
   State<ProductsList> createState() => _ProductsListState(item:item);
 }
@@ -15,8 +17,8 @@ class _ProductsListState extends State<ProductsList> {
   final Item item;
 
   bool isCardDoubleTapped=false;
-  void _handleCardDoubleTap(Item item)async{
-    setState(() {
+  void _handleCardDoubleTap(Item item)async{ //handle double tap on each card
+    setState(() { //trigger rerender
       isCardDoubleTapped = true;
     });
     await addItemToCart(item, 1);
@@ -30,15 +32,13 @@ class _ProductsListState extends State<ProductsList> {
   _ProductsListState({required this.item});
   @override
   Widget build(BuildContext context) {
-    final cartNotifier = context.watch<CartNotifier>();
     return GestureDetector(
-        onDoubleTap:(){
+        onDoubleTap:(){ //double tap detection
           _handleCardDoubleTap(item);
-          cartNotifier.triggerRerender();
         },
 
         child: Card(
-          elevation: isCardDoubleTapped? 8 : 2,
+          elevation: isCardDoubleTapped? 8 : 2, //styling when double tapped
           shape: RoundedRectangleBorder(
             side: BorderSide(
               color: isCardDoubleTapped? Colors.black : Colors.transparent,
@@ -49,9 +49,9 @@ class _ProductsListState extends State<ProductsList> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.network(item.image),
+              Image.network(item.image), //render image
               SizedBox(height: 8),
-              Text('${item.prodName} - ${item.prodPrice}£',
+              Text('${item.prodName} - ${item.prodPrice}£', //render name and price
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,

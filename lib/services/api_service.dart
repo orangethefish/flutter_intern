@@ -2,10 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 //constants
-String ipAdd='192.168.4.52';
-String apiHost='$ipAdd:5000';
+String ipAdd='192.168.4.52'; //ip address
+String apiHost='$ipAdd:5000'; //port that backend listening to
 
-class Item{
+class Item{ // item for product
   final int id;
   final String prodName;
   final double prodPrice;
@@ -20,7 +20,7 @@ class Item{
     required this.prodCategory,
   });
 }
-class CartItem extends Item {
+class CartItem extends Item { //item for a cart (added quantity and subtotal)
   final int quantity;
   final double subtotal;
 
@@ -41,7 +41,7 @@ class CartItem extends Item {
 }
 
 
-Future <List> getCategory() async{
+Future <List> getCategory() async{ //fetch list of categories
   try {
     var url = Uri.http(apiHost, 'products/category');
     final response = await http.get(url);
@@ -54,7 +54,7 @@ Future <List> getCategory() async{
     return [];
   }
 }
-Future<Map<String, List<Item>>> getItems() async{
+Future<Map<String, List<Item>>> getItems() async{ //fetch items within a category
   Map<String,List<Item>> itemsMap={};
   List categories= await getCategory();
   for(String category in categories){
@@ -83,7 +83,8 @@ Future<Map<String, List<Item>>> getItems() async{
   // });
   return itemsMap;
 }
-Future<List<CartItem>> getCart()async{
+
+Future<List<CartItem>> getCart()async{//fetch items in cart
   try{
     var url=Uri.http(apiHost,'cart/all');
     final response= await http.get(url);
@@ -105,7 +106,7 @@ Future<List<CartItem>> getCart()async{
     return [];
   }
 }
-Future <void> addItemToCart(Item item, int quantity) async{
+Future <void> addItemToCart(Item item, int quantity) async{ //add or remove item from cart 
   try{
     var url=Uri.http(apiHost, 'cart/add-to-cart');
     var subtotal = item.prodPrice*quantity;
