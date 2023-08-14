@@ -11,3 +11,5 @@ product.dart - products list
 api_service.dart - contain api calls
 
 all widgets support rendering Products and MyCart widgets is in widgets folder
+
+![DEMO](https://github.com/orangethefish/flutter_intern/blob/main/demo.png?raw=true)
